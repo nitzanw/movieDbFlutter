@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/services/movie_db_api.dart';
@@ -11,10 +13,13 @@ class DioMovieDbApi implements MovieDbApi {
   }
 
   @override
-  Future<List<Movie>> movieList() async {
+  Future<MovieListResponse> movieList() async {
     Response response = await _dio
-        .get("/trending/movie/week", queryParameters: {"api_key": apiKey});
-    print(response.data.toString());
-    return null;
+        .get("/discover/movie", queryParameters: {"api_key": apiKey});
+    Map<String, dynamic> json = jsonDecode(response.toString());
+    MovieListResponse movieListResponse = MovieListResponse.fromJson(json);
+    return movieListResponse;
   }
+
+
 }

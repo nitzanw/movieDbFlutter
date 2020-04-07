@@ -5,88 +5,103 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/detailed_page.dart';
+import 'package:movieapp/pages/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 
+class GridList extends StatefulWidget {
+  const GridList({this.movieListModel, Key key}) : super(key: key);
+  final MovieListModel movieListModel;
 
-class GridList extends StatelessWidget {
-  const GridList({Key key}) : super(key: key);
+  @override
+  _GridListState createState() => _GridListState();
+}
 
+class _GridListState extends State<GridList> {
   List<Movie> _photos(BuildContext context) {
-    return [
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
+    return widget.movieListModel.movieList;
+//    return [
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//      Movie(
+//        id: 1,
+//        poster_path: 'images/movie_icon.png',
+//        title: "Movie 1",
+//        overview: "a great movie about bla",
+//      ),
+//    ];
+  }
+
+  Widget _buildSpinner() {
+    return Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 3.0,
       ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-      Movie(
-        movieId: "1",
-        assetName: 'images/movie_icon.png',
-        title: "Movie 1",
-        subtitle: "a great movie about bla",
-      ),
-    ];
+    );
   }
 
   @override
@@ -96,22 +111,23 @@ class GridList extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text("This is a grid!"),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        padding: const EdgeInsets.all(8),
-        childAspectRatio: 1,
-        children: _photos(context).map<Widget>((movie) {
-          return _GridMovieItem(
-            movie: movie,
-          );
-        }).toList(),
-      ),
+      body: widget.movieListModel.isLoading
+          ? _buildSpinner()
+          : GridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              padding: const EdgeInsets.all(8),
+              childAspectRatio: 1,
+              children: _photos(context).map<Widget>((movie) {
+                return _GridMovieItem(
+                  movie: movie,
+                );
+              }).toList(),
+            ),
     );
   }
 }
-
 
 /// Allow the text size to shrink to fit in the space
 class _GridTitleText extends StatelessWidget {
@@ -121,10 +137,13 @@ class _GridTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      alignment: AlignmentDirectional.centerStart,
-      child: Text(text),
+    return Text(
+      text,
+      softWrap: true,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 14.0,
+      ),
     );
   }
 }
@@ -137,17 +156,22 @@ class _GridMovieItem extends StatelessWidget {
 
   final Movie movie;
 
-  Future<void> _getMovieList(BuildContext context) async{
-    try {
-      final MovieDbApi movieDpApi = Provider.of<MovieDbApi>(context, listen: false);
-      await movieDpApi.movieList();
-    } on Exception catch (e){
-      print(e);
-    }
+  Future<void> _getMovieList(BuildContext context) async {
+//    try {
+//      final MovieDbApi movieDpApi =
+//          Provider.of<MovieDbApi>(context, listen: false);
+//      await movieDpApi.movieList();
+//    } on Exception catch (e) {
+//      print(e);
+//    }
+    print("click");
   }
 
   @override
   Widget build(BuildContext context) {
+    var image_url = 'https://image.tmdb.org/t/p/w500/';
+    var asset_url = 'images/movie_icon.png';
+
     return InkResponse(
       onTap: () => _getMovieList(context),
       child: GridTile(
@@ -160,16 +184,20 @@ class _GridMovieItem extends StatelessWidget {
           child: GridTileBar(
             backgroundColor: Colors.black45,
             title: _GridTitleText(movie.title),
-            subtitle: _GridTitleText(movie.subtitle),
           ),
         ),
         child: Material(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           clipBehavior: Clip.antiAlias,
-          child: Image.asset(
-            movie.assetName,
+          child: FadeInImage.assetNetwork(
+            placeholder: asset_url,
+            image: image_url + movie.poster_path,
             fit: BoxFit.cover,
           ),
+//          child: Image.asset(
+//            movie.poster_path,
+//            fit: BoxFit.cover,
+//          ),
         ),
       ),
     );
@@ -184,4 +212,3 @@ class _GridMovieItem extends StatelessWidget {
     );
   }
 }
-
