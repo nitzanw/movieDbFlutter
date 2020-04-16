@@ -8,6 +8,8 @@ class MovieListModel {
   final bool isLoading;
 
   MovieListModel copyWith({List<Movie> movieList, bool isLoading}) {
-    return MovieListModel(movieList: movieList ?? this.movieList, isLoading: isLoading ?? this.isLoading);
+    return MovieListModel(
+        movieList: movieList ?? this.movieList,
+        isLoading: isLoading ?? this.isLoading);
   }
 }

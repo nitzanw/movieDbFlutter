@@ -4,11 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
+import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_details/detailed_movie_page_change_notifier.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
-
-import '../movie_details/detailed_movie_page.dart';
 
 class MovieListBloc {
   MovieListBloc({@required this.movieDpApi});
@@ -48,7 +47,7 @@ class MovieListBloc {
     Navigator.of(event.context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (context) => DetailedMoviePageChangeNotifier.create(context, event.movie),
+        builder: (context) => DetailedMoviePage.create(context, event.movie),
       ),
     );
   }

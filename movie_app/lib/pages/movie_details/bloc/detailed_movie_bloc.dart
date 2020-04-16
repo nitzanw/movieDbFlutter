@@ -25,18 +25,23 @@ class DetailedMovieBloc {
   }
 
   void updateWith({DetailedMovie detailedMovie, bool isLoading}) {
-    _model.copyWith(
-        detailedMovie: detailedMovie, isLoading: isLoading);
+    _model =
+        _model.copyWith(detailedMovie: detailedMovie, isLoading: isLoading);
     _controller.add(_model);
   }
 
-  Future<void> _loadDetailedMovie(
+  void _loadDetailedMovie(
       Future<DetailedMovie> Function(int movieId) getDetailedMovie) async {
     try {
       updateWith(isLoading: true);
+      print("(_model.detailedMovie : ${_model.detailedMovie}");
       DetailedMovie detailedMovie = await getDetailedMovie(movie.id);
       print(detailedMovie);
-      updateWith(detailedMovie: detailedMovie, isLoading: false);
+      updateWith(
+        detailedMovie: detailedMovie,
+        isLoading: false,
+      );
+      print("(_model.detailedMovie : ${_model.detailedMovie}");
     } catch (e) {
       rethrow;
     }

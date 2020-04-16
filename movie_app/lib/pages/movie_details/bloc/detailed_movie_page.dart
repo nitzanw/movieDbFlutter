@@ -6,7 +6,6 @@ import 'package:movieapp/pages/movie_details/bloc/detailed_movie_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 
-
 class DetailedMoviePage extends StatelessWidget {
   const DetailedMoviePage({
     Key key,
@@ -63,7 +62,6 @@ class DetailedMoviePage extends StatelessWidget {
       ),
     );
   }
-
 
   List<Widget> _buildChildren(BuildContext context, DetailedMovieModel model) {
     final double height = MediaQuery.of(context).size.height * 0.2;

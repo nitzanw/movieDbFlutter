@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:movieapp/models/detailed_movie.dart';
-import 'package:movieapp/models/movie.dart';
 
 class DetailedMovieModel {
   DetailedMovieModel({this.detailedMovie, this.isLoading = true});
