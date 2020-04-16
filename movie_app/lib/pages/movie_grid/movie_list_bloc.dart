@@ -31,12 +31,12 @@ class MovieListBloc {
       MovieListResponse response = await getMovieList();
       updateWith(movieList: response.results);
     } catch (e) {
+
       rethrow;
-    } finally {
+    }finally{
       updateWith(isLoading: false);
     }
   }
 
   void movieList() async => _loadMovieList(movieDpApi.movieList);
 }
-
