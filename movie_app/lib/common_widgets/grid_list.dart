@@ -3,98 +3,18 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/pages/detailed_page.dart';
-import 'package:movieapp/pages/movie_list_model.dart';
+import 'package:movieapp/pages/movie_details/detailed_movie_page.dart';
+import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 
-class GridList extends StatefulWidget {
-  const GridList({this.movieListModel, Key key}) : super(key: key);
+class GridList extends StatelessWidget {
+  const GridList({this.movieListModel, this.eventDispatcher, Key key})
+      : super(key: key);
   final MovieListModel movieListModel;
-
-  @override
-  _GridListState createState() => _GridListState();
-}
-
-class _GridListState extends State<GridList> {
-  List<Movie> _photos(BuildContext context) {
-    return widget.movieListModel.movieList;
-//    return [
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//      Movie(
-//        id: 1,
-//        poster_path: 'images/movie_icon.png',
-//        title: "Movie 1",
-//        overview: "a great movie about bla",
-//      ),
-//    ];
-  }
+  final Function(GridClickEvent) eventDispatcher;
 
   Widget _buildSpinner() {
     return Center(
@@ -111,7 +31,7 @@ class _GridListState extends State<GridList> {
         automaticallyImplyLeading: false,
         title: Text("This is a grid!"),
       ),
-      body: widget.movieListModel.isLoading
+      body: movieListModel.isLoading
           ? _buildSpinner()
           : GridView.count(
               crossAxisCount: 2,
@@ -119,8 +39,9 @@ class _GridListState extends State<GridList> {
               crossAxisSpacing: 8,
               padding: const EdgeInsets.all(8),
               childAspectRatio: 1,
-              children: _photos(context).map<Widget>((movie) {
+              children: movieListModel.movieList.map<Widget>((movie) {
                 return _GridMovieItem(
+                  eventDispatcher: eventDispatcher,
                   movie: movie,
                 );
               }).toList(),
@@ -149,31 +70,22 @@ class _GridTitleText extends StatelessWidget {
 }
 
 class _GridMovieItem extends StatelessWidget {
+
   _GridMovieItem({
     Key key,
     @required this.movie,
+     this.eventDispatcher,
   }) : super(key: key);
 
   final Movie movie;
-
-  Future<void> _getMovieList(BuildContext context) async {
-//    try {
-//      final MovieDbApi movieDpApi =
-//          Provider.of<MovieDbApi>(context, listen: false);
-//      await movieDpApi.movieList();
-//    } on Exception catch (e) {
-//      print(e);
-//    }
-    print("click");
-  }
-
+  final Function(GridClickEvent) eventDispatcher;
   @override
   Widget build(BuildContext context) {
     var image_url = 'https://image.tmdb.org/t/p/w500/';
     var asset_url = 'images/movie_icon.png';
 
     return InkResponse(
-      onTap: () => _getMovieList(context),
+      onTap: () => _navigateToDetailedPage(context),
       child: GridTile(
         footer: Material(
           color: Colors.transparent,
@@ -204,11 +116,6 @@ class _GridMovieItem extends StatelessWidget {
   }
 
   _navigateToDetailedPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        fullscreenDialog: true,
-        builder: (context) => DetailedPage(),
-      ),
-    );
+   eventDispatcher(GridClickEvent(context: context, movie: movie));
   }
 }

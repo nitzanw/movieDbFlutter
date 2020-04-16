@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:movieapp/models/detailed_movie.dart';
 import 'package:movieapp/models/movie.dart';
+import 'package:movieapp/services/movie_db_api.dart';
 
-class DetailedMovieModel with ChangeNotifier {
-  DetailedMovieModel({this.detailedMovie, this.movie, this.isLoading});
-
+class DetailedMovieModelChangeNotifier with ChangeNotifier {
+  DetailedMovieModelChangeNotifier({@required this.movieDpApi, this.detailedMovie, this.movie, this.isLoading}){
+    getDetailedMovie();
+  }
+final MovieDbApi movieDpApi;
   Movie movie;
   DetailedMovie detailedMovie;
   bool isLoading;
