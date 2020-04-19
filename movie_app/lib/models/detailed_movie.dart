@@ -24,33 +24,34 @@ class DetailedMovie {
   bool video;
   double voteAverage;
   int voteCount;
+  Credits credits;
 
   DetailedMovie(
       {this.adult,
-        this.backdropPath,
-        this.belongsToCollection,
-        this.budget,
-        this.genres,
-        this.homepage,
-        this.id,
-        this.imdbId,
-        this.originalLanguage,
-        this.originalTitle,
-        this.overview,
-        this.popularity,
-        this.posterPath,
-        this.productionCompanies,
-        this.productionCountries,
-        this.releaseDate,
-        this.revenue,
-        this.runtime,
-        this.spokenLanguages,
-        this.status,
-        this.tagline,
-        this.title,
-        this.video,
-        this.voteAverage,
-        this.voteCount});
+      this.backdropPath,
+      this.belongsToCollection,
+      this.budget,
+      this.genres,
+      this.homepage,
+      this.id,
+      this.imdbId,
+      this.originalLanguage,
+      this.originalTitle,
+      this.overview,
+      this.popularity,
+      this.posterPath,
+      this.productionCompanies,
+      this.productionCountries,
+      this.releaseDate,
+      this.revenue,
+      this.runtime,
+      this.spokenLanguages,
+      this.status,
+      this.tagline,
+      this.title,
+      this.video,
+      this.voteAverage,
+      this.voteCount});
 
   DetailedMovie.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
@@ -100,6 +101,8 @@ class DetailedMovie {
     video = json['video'];
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
+    credits =
+        json['credits'] != null ? new Credits.fromJson(json['credits']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -142,6 +145,9 @@ class DetailedMovie {
     data['video'] = this.video;
     data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;
+    if (this.credits != null) {
+      data['credits'] = this.credits.toJson();
+    }
     return data;
   }
 }
@@ -249,6 +255,125 @@ class SpokenLanguages {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['iso_639_1'] = this.iso6391;
     data['name'] = this.name;
+    return data;
+  }
+}
+
+class Credits {
+  List<Cast> cast;
+  List<Crew> crew;
+
+  Credits({this.cast, this.crew});
+
+  Credits.fromJson(Map<String, dynamic> json) {
+    if (json['cast'] != null) {
+      cast = new List<Cast>();
+      json['cast'].forEach((v) {
+        cast.add(new Cast.fromJson(v));
+      });
+    }
+    if (json['crew'] != null) {
+      crew = new List<Crew>();
+      json['crew'].forEach((v) {
+        crew.add(new Crew.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.cast != null) {
+      data['cast'] = this.cast.map((v) => v.toJson()).toList();
+    }
+    if (this.crew != null) {
+      data['crew'] = this.crew.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Cast {
+  int castId;
+  String character;
+  String creditId;
+  int gender;
+  int id;
+  String name;
+  int order;
+  String profilePath;
+
+  Cast(
+      {this.castId,
+      this.character,
+      this.creditId,
+      this.gender,
+      this.id,
+      this.name,
+      this.order,
+      this.profilePath});
+
+  Cast.fromJson(Map<String, dynamic> json) {
+    castId = json['cast_id'];
+    character = json['character'];
+    creditId = json['credit_id'];
+    gender = json['gender'];
+    id = json['id'];
+    name = json['name'];
+    order = json['order'];
+    profilePath = json['profile_path'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['cast_id'] = this.castId;
+    data['character'] = this.character;
+    data['credit_id'] = this.creditId;
+    data['gender'] = this.gender;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['order'] = this.order;
+    data['profile_path'] = this.profilePath;
+    return data;
+  }
+}
+
+class Crew {
+  String creditId;
+  String department;
+  int gender;
+  int id;
+  String job;
+  String name;
+  String profilePath;
+
+  Crew(
+      {this.creditId,
+      this.department,
+      this.gender,
+      this.id,
+      this.job,
+      this.name,
+      this.profilePath});
+
+  Crew.fromJson(Map<String, dynamic> json) {
+    creditId = json['credit_id'];
+    department = json['department'];
+    gender = json['gender'];
+    id = json['id'];
+    job = json['job'];
+    name = json['name'];
+    profilePath = json['profile_path'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['credit_id'] = this.creditId;
+    data['department'] = this.department;
+    data['gender'] = this.gender;
+    data['id'] = this.id;
+    data['job'] = this.job;
+    data['name'] = this.name;
+    data['profile_path'] = this.profilePath;
     return data;
   }
 }

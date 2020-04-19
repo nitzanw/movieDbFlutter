@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:movieapp/models/detailed_movie.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_bloc.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
+import 'package:movieapp/services/constants.dart' as Constants;
 
 class DetailedMoviePage extends StatelessWidget {
   const DetailedMoviePage({
@@ -32,7 +34,7 @@ class DetailedMoviePage extends StatelessWidget {
       stream: bloc.modelStream,
       initialData: DetailedMovieModel(),
       builder: (context, snapshot) {
-       final DetailedMovieModel model = snapshot.data;
+        final DetailedMovieModel model = snapshot.data;
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -45,12 +47,17 @@ class DetailedMoviePage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, DetailedMovieModel model) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildChildren(context, model),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+//          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _buildChildren(context, model),
+          ),
+        ),
       ),
     );
   }
@@ -68,19 +75,20 @@ class DetailedMoviePage extends StatelessWidget {
     return [
       model.isLoading ? _buildSpinner() : _buildRow(height, model),
       model.isLoading ? _buildSpinner() : _buildSubSection(model),
+      model.isLoading ? _buildSpinner() : _buildCastSubSection(model),
+      SizedBox(
+        height: 20,
+      )
     ];
   }
 
   Row _buildRow(double height, DetailedMovieModel model) {
-    var image_url = 'https://image.tmdb.org/t/p/w500/';
-    var asset_url = 'images/movie_icon.png';
-
     return Row(
       children: <Widget>[
         Expanded(
             child: FadeInImage.assetNetwork(
-          placeholder: asset_url,
-          image: image_url + model.detailedMovie.posterPath ?? null,
+          placeholder: Constants.ASSET_URL,
+          image: Constants.IMAGE_URL + model.detailedMovie.posterPath ?? null,
           fit: BoxFit.cover,
         )),
         Expanded(
@@ -156,5 +164,62 @@ class DetailedMoviePage extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Widget _buildCastSubSection(DetailedMovieModel model) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Divider(
+          color: Colors.amber,
+        ),
+        Text(
+          "Cast",
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Container(
+          height: 240,
+          child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: model.detailedMovie.credits.cast.length,
+              separatorBuilder: (BuildContext context, int index) => SizedBox(width: 8,),
+              itemBuilder: (BuildContext context, int index) => Center(
+                    child: SizedBox(
+                      width: 120,
+                      child: Column(children: [
+                        Card(
+                          child: GestureDetector(
+                            child: SizedBox(
+                              height: 160,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: Constants.ASSET_URL,
+                                placeholderScale: 0.3,
+                                image: _castImage(
+                                    model.detailedMovie.credits.cast[index]),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(child: Text( model.detailedMovie.credits.cast[index].name)),
+                      ]),
+                    ),
+                  )),
+        ),
+      ],
+    );
+  }
+
+  String _castImage(Cast castMember) {
+    if (castMember.profilePath == null) {
+      return "";
+    }
+    return Constants.IMAGE_URL + castMember.profilePath;
   }
 }

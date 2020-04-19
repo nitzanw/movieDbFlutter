@@ -34,14 +34,12 @@ class DetailedMovieBloc {
       Future<DetailedMovie> Function(int movieId) getDetailedMovie) async {
     try {
       updateWith(isLoading: true);
-      print("(_model.detailedMovie : ${_model.detailedMovie}");
       DetailedMovie detailedMovie = await getDetailedMovie(movie.id);
       print(detailedMovie);
       updateWith(
         detailedMovie: detailedMovie,
         isLoading: false,
       );
-      print("(_model.detailedMovie : ${_model.detailedMovie}");
     } catch (e) {
       rethrow;
     }

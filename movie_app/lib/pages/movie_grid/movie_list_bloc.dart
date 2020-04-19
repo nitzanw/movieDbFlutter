@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
-import 'package:movieapp/pages/movie_details/detailed_movie_page_change_notifier.dart';
+import 'package:movieapp/pages/movie_details/change_notifier/detailed_movie_page_change_notifier.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 

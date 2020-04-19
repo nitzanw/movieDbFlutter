@@ -5,10 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
-import 'package:movieapp/services/movie_db_api.dart';
-import 'package:provider/provider.dart';
+import 'package:movieapp/services/constants.dart' as Constants;
+
 
 class GridList extends StatelessWidget {
   const GridList({this.movieListModel, this.eventDispatcher, Key key})
@@ -81,8 +80,6 @@ class _GridMovieItem extends StatelessWidget {
   final Function(GridClickEvent) eventDispatcher;
   @override
   Widget build(BuildContext context) {
-    var image_url = 'https://image.tmdb.org/t/p/w500/';
-    var asset_url = 'images/movie_icon.png';
 
     return InkResponse(
       onTap: () => _navigateToDetailedPage(context),
@@ -102,14 +99,10 @@ class _GridMovieItem extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           clipBehavior: Clip.antiAlias,
           child: FadeInImage.assetNetwork(
-            placeholder: asset_url,
-            image: image_url + movie.poster_path,
+            placeholder: Constants.ASSET_URL,
+            image: Constants.IMAGE_URL + movie.poster_path,
             fit: BoxFit.cover,
           ),
-//          child: Image.asset(
-//            movie.poster_path,
-//            fit: BoxFit.cover,
-//          ),
         ),
       ),
     );

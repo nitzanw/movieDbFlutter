@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/pages/movie_details/detailed_movie_model_change_notifier.dart';
+import 'package:movieapp/pages/movie_details/change_notifier/detailed_movie_model_change_notifier.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 
