@@ -4,6 +4,7 @@ import 'package:movieapp/models/detailed_movie.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_bloc.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_model.dart';
+import 'package:movieapp/pages/movie_details/video_section/video_section.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
@@ -51,9 +52,7 @@ class DetailedMoviePage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-//          height: MediaQuery.of(context).size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: _buildChildren(context, model),
           ),
@@ -71,63 +70,65 @@ class DetailedMoviePage extends StatelessWidget {
   }
 
   List<Widget> _buildChildren(BuildContext context, DetailedMovieModel model) {
-    final double height = MediaQuery.of(context).size.height * 0.2;
     return [
-      model.isLoading ? _buildSpinner() : _buildRow(height, model),
+      model.isLoading ? _buildSpinner() : _buildRow(model),
       model.isLoading ? _buildSpinner() : _buildSubSection(model),
       model.isLoading ? _buildSpinner() : _buildCastSubSection(model),
+      model.isLoading ? _buildSpinner() : _buildVideoSubSection(model),
       SizedBox(
         height: 20,
       )
     ];
   }
 
-  Row _buildRow(double height, DetailedMovieModel model) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-            child: FadeInImage.assetNetwork(
-          placeholder: Constants.ASSET_URL,
-          image: Constants.IMAGE_URL + model.detailedMovie.posterPath ?? null,
-          fit: BoxFit.cover,
-        )),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+  Widget _buildRow(DetailedMovieModel model) {
+    return Container(
+      height: 280,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              child: FadeInImage.assetNetwork(
+            placeholder: Constants.ASSET_URL,
+            image: Constants.IMAGE_URL + model.detailedMovie.posterPath ?? null,
+            fit: BoxFit.cover,
+          )),
+          Expanded(
             child: Container(
-              padding: const EdgeInsets.all(8.0),
-              color: Colors.blue,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 8.0,
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      Expanded(
+                          child: _textWidget(
+                              "Budget: USD ${model.detailedMovie.budget}")),
+                      Expanded(
+                          child: _textWidget(
+                              "Release: ${model.detailedMovie.releaseDate}")),
+                      Expanded(
+                          child: _textWidget(
+                              "Runtime ${model.detailedMovie.runtime} min")),
+                      Expanded(
+                        child: _textWidget(
+                            "Vote average: ${model.detailedMovie.voteAverage}/10"),
+                      ),
+                      Expanded(
+                          child: _textWidget(
+                              "Status : ${model.detailedMovie.status}"))
+                    ],
                   ),
-                  _textWidget("Budget: USD ${model.detailedMovie.budget}"),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  _textWidget("Release: ${model.detailedMovie.releaseDate}"),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  _textWidget("Runtime ${model.detailedMovie.runtime} min"),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  _textWidget(
-                      "Vote average: ${model.detailedMovie.voteAverage}/10"),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  _textWidget("Status : ${model.detailedMovie.status}")
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -184,11 +185,13 @@ class DetailedMoviePage extends StatelessWidget {
           height: 8.0,
         ),
         Container(
-          height: 240,
+          height: 210,
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: model.detailedMovie.credits.cast.length,
-              separatorBuilder: (BuildContext context, int index) => SizedBox(width: 8,),
+              separatorBuilder: (BuildContext context, int index) => SizedBox(
+                    width: 8,
+                  ),
               itemBuilder: (BuildContext context, int index) => Center(
                     child: SizedBox(
                       width: 120,
@@ -207,7 +210,9 @@ class DetailedMoviePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Expanded(child: Text( model.detailedMovie.credits.cast[index].name)),
+                        Expanded(
+                            child: Text(
+                                model.detailedMovie.credits.cast[index].name)),
                       ]),
                     ),
                   )),
@@ -221,5 +226,29 @@ class DetailedMoviePage extends StatelessWidget {
       return "";
     }
     return Constants.IMAGE_URL + castMember.profilePath;
+  }
+
+  Widget _buildVideoSubSection(DetailedMovieModel model) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Divider(
+            color: Colors.amber,
+          ),
+          Text(
+            "Videos",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Container(
+            height: 178,
+            child: model.isLoading ? _buildSpinner() : VideoSection(videos : model.detailedMovie.videos, key: UniqueKey(),),
+          ),
+        ]);
   }
 }

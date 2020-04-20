@@ -25,6 +25,7 @@ class DetailedMovie {
   double voteAverage;
   int voteCount;
   Credits credits;
+  Videos videos;
 
   DetailedMovie(
       {this.adult,
@@ -51,7 +52,9 @@ class DetailedMovie {
       this.title,
       this.video,
       this.voteAverage,
-      this.voteCount});
+      this.voteCount,
+      this.credits,
+      this.videos});
 
   DetailedMovie.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
@@ -103,6 +106,8 @@ class DetailedMovie {
     voteCount = json['vote_count'];
     credits =
         json['credits'] != null ? new Credits.fromJson(json['credits']) : null;
+    videos =
+        json['videos'] != null ? new Videos.fromJson(json['videos']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -147,6 +152,9 @@ class DetailedMovie {
     data['vote_count'] = this.voteCount;
     if (this.credits != null) {
       data['credits'] = this.credits.toJson();
+    }
+    if (this.videos != null) {
+      data['videos'] = this.videos.toJson();
     }
     return data;
   }
@@ -374,6 +382,74 @@ class Crew {
     data['job'] = this.job;
     data['name'] = this.name;
     data['profile_path'] = this.profilePath;
+    return data;
+  }
+}
+
+class Videos {
+  List<Video> results;
+
+  Videos({this.results});
+
+  Videos.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = new List<Video>();
+      json['results'].forEach((v) {
+        results.add(new Video.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.results != null) {
+      data['results'] = this.results.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Video {
+  String id;
+  String iso6391;
+  String iso31661;
+  String key;
+  String name;
+  String site;
+  int size;
+  String type;
+
+  Video(
+      {this.id,
+      this.iso6391,
+      this.iso31661,
+      this.key,
+      this.name,
+      this.site,
+      this.size,
+      this.type});
+
+  Video.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    iso6391 = json['iso_639_1'];
+    iso31661 = json['iso_3166_1'];
+    key = json['key'];
+    name = json['name'];
+    site = json['site'];
+    size = json['size'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['iso_639_1'] = this.iso6391;
+    data['iso_3166_1'] = this.iso31661;
+    data['key'] = this.key;
+    data['name'] = this.name;
+    data['site'] = this.site;
+    data['size'] = this.size;
+    data['type'] = this.type;
     return data;
   }
 }

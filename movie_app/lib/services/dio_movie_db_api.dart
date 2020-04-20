@@ -27,7 +27,7 @@ class DioMovieDbApi implements MovieDbApi {
     print("the movie id $movieId");
     Response response = await _dio.get("/movie/$movieId", queryParameters: {
       "api_key": apiKey,
-      "append_to_response" : "credits",
+      "append_to_response" : "credits,videos",
     });
     Map<String, dynamic> json = jsonDecode(response.toString());
     print(json);
