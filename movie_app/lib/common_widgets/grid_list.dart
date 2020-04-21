@@ -8,7 +8,6 @@ import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
-
 class GridList extends StatelessWidget {
   const GridList({this.movieListModel, this.eventDispatcher, Key key})
       : super(key: key);
@@ -32,20 +31,29 @@ class GridList extends StatelessWidget {
       ),
       body: movieListModel.isLoading
           ? _buildSpinner()
-          : GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
+          : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                childAspectRatio: 1,
+              ),
+              itemCount: movieListModel.movieList.length,
               padding: const EdgeInsets.all(8),
-              childAspectRatio: 1,
-              children: movieListModel.movieList.map<Widget>((movie) {
-                return _GridMovieItem(
-                  eventDispatcher: eventDispatcher,
-                  movie: movie,
+              itemBuilder: (_, index) {
+                final Movie movie =  movieListModel.movieList[index];
+                return GestureDetector(
+                  onTap: ()=>_navigateToDetailedPage(context,movie),
+                  child: _GridMovieItem(
+                    movie: movie,
+                  ),
                 );
-              }).toList(),
+              },
             ),
     );
+  }
+  _navigateToDetailedPage(BuildContext context, Movie movie) {
+    eventDispatcher(GridClickEvent(context: context, movie: movie));
   }
 }
 
@@ -69,46 +77,36 @@ class _GridTitleText extends StatelessWidget {
 }
 
 class _GridMovieItem extends StatelessWidget {
-
   _GridMovieItem({
     Key key,
     @required this.movie,
-     this.eventDispatcher,
   }) : super(key: key);
 
   final Movie movie;
-  final Function(GridClickEvent) eventDispatcher;
+
   @override
   Widget build(BuildContext context) {
-
-    return InkResponse(
-      onTap: () => _navigateToDetailedPage(context),
-      child: GridTile(
-        footer: Material(
-          color: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: GridTileBar(
-            backgroundColor: Colors.black45,
-            title: _GridTitleText(movie.title),
-          ),
+    return GridTile(
+      footer: Material(
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
         ),
-        child: Material(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          clipBehavior: Clip.antiAlias,
-          child: FadeInImage.assetNetwork(
-            placeholder: Constants.ASSET_URL,
-            image: Constants.IMAGE_URL + movie.poster_path,
-            fit: BoxFit.cover,
-          ),
+        clipBehavior: Clip.antiAlias,
+        child: GridTileBar(
+          backgroundColor: Colors.black45,
+          title: _GridTitleText(movie.title),
+        ),
+      ),
+      child: Material(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        clipBehavior: Clip.antiAlias,
+        child: FadeInImage.assetNetwork(
+          placeholder: Constants.ASSET_URL,
+          image: Constants.IMAGE_URL + movie.poster_path,
+          fit: BoxFit.cover,
         ),
       ),
     );
-  }
-
-  _navigateToDetailedPage(BuildContext context) {
-   eventDispatcher(GridClickEvent(context: context, movie: movie));
   }
 }
