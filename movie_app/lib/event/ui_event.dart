@@ -7,9 +7,16 @@ abstract class UiEvent {
   UiEvent(this.context);
 }
 
-class GridClickEvent extends UiEvent {
+class DetailedMovieClickEvent extends UiEvent {
   final Movie movie;
 
-  GridClickEvent({BuildContext context, this.movie}) : super(context);
+  DetailedMovieClickEvent({BuildContext context, this.movie}) : super(context);
+
+}
+
+class MoreClickEvent extends UiEvent {
+  final String apiName;
+
+  MoreClickEvent({BuildContext context, this.apiName}) : super(context);
 
 }

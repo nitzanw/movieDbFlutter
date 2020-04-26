@@ -12,7 +12,7 @@ class GridList extends StatelessWidget {
   const GridList({this.movieListModel, this.eventDispatcher, Key key})
       : super(key: key);
   final MovieListModel movieListModel;
-  final Function(GridClickEvent) eventDispatcher;
+  final Function(DetailedMovieClickEvent) eventDispatcher;
 
   Widget _buildSpinner() {
     return Center(
@@ -53,7 +53,7 @@ class GridList extends StatelessWidget {
     );
   }
   _navigateToDetailedPage(BuildContext context, Movie movie) {
-    eventDispatcher(GridClickEvent(context: context, movie: movie));
+    eventDispatcher(DetailedMovieClickEvent(context: context, movie: movie));
   }
 }
 

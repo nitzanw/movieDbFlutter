@@ -14,9 +14,9 @@ class DioMovieDbApi implements MovieDbApi {
   }
 
   @override
-  Future<MovieListResponse> movieList() async {
-    Response response =
-        await _dio.get("/discover/movie", queryParameters: {"api_key": apiKey});
+  Future<MovieListResponse> movieList({int pageNumber, String apiName = "/discover/movie"}) async {
+    Response response = await _dio
+        .get("/discover/movie", queryParameters: {"api_key": apiKey, "page": pageNumber});
     Map<String, dynamic> json = jsonDecode(response.toString());
     MovieListResponse movieListResponse = MovieListResponse.fromJson(json);
     return movieListResponse;
@@ -27,7 +27,7 @@ class DioMovieDbApi implements MovieDbApi {
     print("the movie id $movieId");
     Response response = await _dio.get("/movie/$movieId", queryParameters: {
       "api_key": apiKey,
-      "append_to_response" : "credits,videos",
+      "append_to_response": "credits,videos",
     });
     Map<String, dynamic> json = jsonDecode(response.toString());
     print(json);

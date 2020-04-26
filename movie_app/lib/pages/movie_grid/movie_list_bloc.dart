@@ -6,6 +6,7 @@ import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_details/change_notifier/detailed_movie_page_change_notifier.dart';
+import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 
@@ -43,12 +44,23 @@ class MovieListBloc {
 
   void movieList() async => _loadMovieList(movieDpApi.movieList);
 
-  eventDispatcher(GridClickEvent event) {
-    Navigator.of(event.context).push(
-      MaterialPageRoute<void>(
-        fullscreenDialog: true,
-        builder: (context) => DetailedMoviePage.create(context, event.movie),
-      ),
-    );
+  eventDispatcher(UiEvent event) {
+
+    if(event is DetailedMovieClickEvent){
+      Navigator.of(event.context).push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => DetailedMoviePage.create(context, (event as DetailedMovieClickEvent).movie),
+        ),
+      );
+    }
+//    else if(event is MoreClickEvent){
+//      Navigator.of(event.context).push(
+//        MaterialPageRoute<void>(
+//          fullscreenDialog: true,
+//          builder: (context) => MovieGridPage.create(context, (event as MoreClickEvent).apiName),
+//        ),
+//      );
+//    }
   }
 }
