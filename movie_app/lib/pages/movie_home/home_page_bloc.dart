@@ -9,12 +9,11 @@ import 'package:movieapp/pages/movie_details/change_notifier/detailed_movie_page
 import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
-import 'package:movieapp/services/constants.dart' as Constants;
 
-class MovieListBloc {
-  MovieListBloc({@required this.movieDpApi, @required this.apiName});
+class HomePageBloc {
+  HomePageBloc({@required this.movieDpApi});
+
   final MovieDbApi movieDpApi;
-  final String apiName;
 
   final StreamController<MovieListModel> _loadingMoviesController =
   StreamController<MovieListModel>();
@@ -31,7 +30,7 @@ class MovieListBloc {
     _loadingMoviesController.add(_model);
   }
 
-  void _loadMovieList(Future<MovieListResponse> Function(int,String) getMovieList) async {
+  void _loadMovieList(Future<MovieListResponse> Function(int,String) getMovieList, String apiName) async {
     try {
       updateWith(isLoading: true);
       MovieListResponse response = await getMovieList(1, apiName);
@@ -43,7 +42,7 @@ class MovieListBloc {
     }
   }
 
-  void movieList() async => _loadMovieList(movieDpApi.movieList);
+  void movieList(String apiName) async => _loadMovieList(movieDpApi.movieList, apiName);
 
   eventDispatcher(UiEvent event) {
 

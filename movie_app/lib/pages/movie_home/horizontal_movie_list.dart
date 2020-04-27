@@ -25,8 +25,7 @@ class HorizontalMovieList extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Movies Playing Now",
+                child: Text(Constants.apiNameToTitleMap["/movie/top_rated"],
                   textAlign: TextAlign.start,
                   style: TextStyle(),
                 ),
@@ -35,9 +34,10 @@ class HorizontalMovieList extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: FlatButton(
-                onPressed: _navigateToMorePage(context, "/movie/now_playing"),
+                onPressed: ()=>_navigateToMorePage(context, "/movie/top_rated"),
                 child: Text(
                   "More",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.amber,
                   ),
@@ -49,14 +49,16 @@ class HorizontalMovieList extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(4),
           child: Container(
-            height: 178,
+            height: 200,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return movieListModel.isLoading ? _buildSpinner() :
+                GestureDetector(
                   onTap: () => _navigateToDetailedPage(
                       context, movieListModel.movieList[index]),
                   child: Container(
+                    width: 150,
                     padding: EdgeInsets.all(4),
                     child: FadeInImage.assetNetwork(
                       placeholder: Constants.ASSET_URL,
@@ -72,6 +74,14 @@ class HorizontalMovieList extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSpinner() {
+    return Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 3.0,
+      ),
     );
   }
 

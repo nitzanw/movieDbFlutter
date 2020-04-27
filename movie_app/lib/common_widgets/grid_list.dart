@@ -9,10 +9,11 @@ import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class GridList extends StatelessWidget {
-  const GridList({this.movieListModel, this.eventDispatcher, Key key})
+  const GridList({@required this.movieListModel, @required this.eventDispatcher, @required this.title, Key key})
       : super(key: key);
   final MovieListModel movieListModel;
   final Function(DetailedMovieClickEvent) eventDispatcher;
+  final String title;
 
   Widget _buildSpinner() {
     return Center(
@@ -27,7 +28,7 @@ class GridList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("This is a grid!"),
+        title: Text(title),
       ),
       body: movieListModel.isLoading
           ? _buildSpinner()

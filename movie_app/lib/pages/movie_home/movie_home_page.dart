@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/pages/movie_home/home_page_bloc.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_bloc.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/pages/movie_home/horizontal_movie_list.dart';
@@ -8,15 +9,15 @@ import 'package:provider/provider.dart';
 class MovieHomePage extends StatelessWidget {
   const MovieHomePage({Key key, this.bloc}) : super(key: key);
 
-  final MovieListBloc bloc;
+  final HomePageBloc bloc;
 
   static Widget create(BuildContext context) {
     final MovieDbApi movieDpApi =
         Provider.of<MovieDbApi>(context, listen: false);
-    return Provider<MovieListBloc>(
-      create: (_) => MovieListBloc(movieDpApi: movieDpApi,),
+    return Provider<HomePageBloc>(
+      create: (_) => HomePageBloc(movieDpApi: movieDpApi,),
       dispose: (context, bloc) => bloc.dispose(),
-      child: Consumer<MovieListBloc>(
+      child: Consumer<HomePageBloc>(
           builder: (context, bloc, _) => MovieHomePage(
                 bloc: bloc,
               )),
@@ -25,7 +26,7 @@ class MovieHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bloc.movieList();
+    bloc.movieList("/movie/top_rated");
     return StreamBuilder<MovieListModel>(
       stream: bloc.modelStream,
       initialData: MovieListModel(),

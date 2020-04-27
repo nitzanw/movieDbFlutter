@@ -6,16 +6,18 @@ import 'package:movieapp/pages/movie_grid/movie_list_bloc.dart';
 import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
+import 'package:movieapp/services/constants.dart' as Constants;
+
 
 class MovieGridPage extends StatelessWidget {
   const MovieGridPage({Key key, @required this.bloc}) : super(key: key);
   final MovieListBloc bloc;
 
-  static Widget create(BuildContext context) {
+  static Widget create(BuildContext context, String apiName) {
     final MovieDbApi movieDpApi =
         Provider.of<MovieDbApi>(context, listen: false);
     return Provider<MovieListBloc>(
-      create: (_) => MovieListBloc(movieDpApi: movieDpApi),
+      create: (_) => MovieListBloc(movieDpApi: movieDpApi, apiName: apiName),
       dispose: (context, bloc) => bloc.dispose(),
       child: Consumer<MovieListBloc>(
           builder: (context, bloc, _) => MovieGridPage(
@@ -34,7 +36,10 @@ class MovieGridPage extends StatelessWidget {
           return GridList(
             eventDispatcher: bloc.eventDispatcher,
             movieListModel: snapshot.data,
+            title: Constants.apiNameToTitleMap[bloc.apiName],
           );
         });
   }
 }
+
+
