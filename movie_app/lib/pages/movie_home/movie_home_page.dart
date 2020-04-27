@@ -5,6 +5,8 @@ import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/pages/movie_home/horizontal_movie_list.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
+import 'package:movieapp/services/constants.dart' as Constants;
+
 
 class MovieHomePage extends StatelessWidget {
   const MovieHomePage({Key key, this.bloc}) : super(key: key);
@@ -41,6 +43,7 @@ class MovieHomePage extends StatelessWidget {
                 HorizontalMovieList(
                   movieListModel: snapshot.data,
                   eventDispatcher: bloc.eventDispatcher,
+                  apiName: "/movie/top_rated",
                 ),
               ],
             ),

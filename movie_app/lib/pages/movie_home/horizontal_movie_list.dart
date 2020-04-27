@@ -6,11 +6,14 @@ import 'package:movieapp/services/constants.dart' as Constants;
 
 class HorizontalMovieList extends StatelessWidget {
   final MovieListModel movieListModel;
-
   final Function(UiEvent) eventDispatcher;
+  final String apiName;
 
   const HorizontalMovieList(
-      {Key key, this.movieListModel, this.eventDispatcher})
+      {Key key,
+      @required this.movieListModel,
+      @required this.eventDispatcher,
+      @required this.apiName})
       : super(key: key);
 
   @override
@@ -25,7 +28,8 @@ class HorizontalMovieList extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(Constants.apiNameToTitleMap["/movie/top_rated"],
+                child: Text(
+                  Constants.apiNameToTitleMap[apiName],
                   textAlign: TextAlign.start,
                   style: TextStyle(),
                 ),
@@ -34,7 +38,7 @@ class HorizontalMovieList extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: FlatButton(
-                onPressed: ()=>_navigateToMorePage(context, "/movie/top_rated"),
+                onPressed: () => _navigateToMorePage(context, apiName),
                 child: Text(
                   "More",
                   textAlign: TextAlign.center,
@@ -53,21 +57,22 @@ class HorizontalMovieList extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return movieListModel.isLoading ? _buildSpinner() :
-                GestureDetector(
-                  onTap: () => _navigateToDetailedPage(
-                      context, movieListModel.movieList[index]),
-                  child: Container(
-                    width: 150,
-                    padding: EdgeInsets.all(4),
-                    child: FadeInImage.assetNetwork(
-                      placeholder: Constants.ASSET_URL,
-                      image: Constants.IMAGE_URL +
-                          movieListModel.movieList[index].poster_path,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
+                return movieListModel.isLoading
+                    ? _buildSpinner()
+                    : GestureDetector(
+                        onTap: () => _navigateToDetailedPage(
+                            context, movieListModel.movieList[index]),
+                        child: Container(
+                          width: 150,
+                          padding: EdgeInsets.all(4),
+                          child: FadeInImage.assetNetwork(
+                            placeholder: Constants.ASSET_URL,
+                            image: Constants.IMAGE_URL +
+                                movieListModel.movieList[index].poster_path,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
               },
               itemCount: movieListModel.movieList.length,
             ),
