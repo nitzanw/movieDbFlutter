@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/models/movie.dart';
+import 'package:movieapp/services/constants.dart';
 
 abstract class UiEvent {
   final BuildContext context;
@@ -15,8 +16,8 @@ class DetailedMovieClickEvent extends UiEvent {
 }
 
 class MoreClickEvent extends UiEvent {
-  final String apiName;
+  final MovieListType movieListType;
 
-  MoreClickEvent({BuildContext context, this.apiName}) : super(context);
+  MoreClickEvent({BuildContext context, this.movieListType}) : super(context);
 
 }

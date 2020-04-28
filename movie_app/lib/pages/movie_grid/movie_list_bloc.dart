@@ -12,9 +12,9 @@ import 'package:movieapp/services/movie_db_api.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class MovieListBloc {
-  MovieListBloc({@required this.movieDpApi, @required this.apiName});
+  MovieListBloc({@required this.movieDpApi, @required this.movieListType});
   final MovieDbApi movieDpApi;
-  final String apiName;
+  final Constants.MovieListType movieListType;
 
   final StreamController<MovieListModel> _loadingMoviesController =
   StreamController<MovieListModel>();
@@ -34,7 +34,7 @@ class MovieListBloc {
   void _loadMovieList(Future<MovieListResponse> Function(int,String) getMovieList) async {
     try {
       updateWith(isLoading: true);
-      MovieListResponse response = await getMovieList(1, apiName);
+      MovieListResponse response = await getMovieList(1, movieListType.apiName);
       updateWith(movieList: response.results);
     } catch (e) {
       rethrow;
@@ -59,7 +59,7 @@ class MovieListBloc {
       Navigator.of(event.context).push(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
-          builder: (context) => MovieGridPage.create(context, event.apiName),
+          builder: (context) => MovieGridPage.create(context, event.movieListType),
         ),
       );
     }

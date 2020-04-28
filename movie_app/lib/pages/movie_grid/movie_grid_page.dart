@@ -13,11 +13,11 @@ class MovieGridPage extends StatelessWidget {
   const MovieGridPage({Key key, @required this.bloc}) : super(key: key);
   final MovieListBloc bloc;
 
-  static Widget create(BuildContext context, String apiName) {
+  static Widget create(BuildContext context, Constants.MovieListType movieListType) {
     final MovieDbApi movieDpApi =
         Provider.of<MovieDbApi>(context, listen: false);
     return Provider<MovieListBloc>(
-      create: (_) => MovieListBloc(movieDpApi: movieDpApi, apiName: apiName),
+      create: (_) => MovieListBloc(movieDpApi: movieDpApi, movieListType: movieListType),
       dispose: (context, bloc) => bloc.dispose(),
       child: Consumer<MovieListBloc>(
           builder: (context, bloc, _) => MovieGridPage(
@@ -36,7 +36,7 @@ class MovieGridPage extends StatelessWidget {
           return GridList(
             eventDispatcher: bloc.eventDispatcher,
             movieListModel: snapshot.data,
-            title: Constants.apiNameToTitleMap[bloc.apiName],
+            title: bloc.movieListType.title,
           );
         });
   }

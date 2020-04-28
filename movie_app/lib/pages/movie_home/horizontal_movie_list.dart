@@ -5,15 +5,17 @@ import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class HorizontalMovieList extends StatelessWidget {
-  final MovieListModel movieListModel;
+  final List<Movie> movieList;
+  final bool isLoading;
   final Function(UiEvent) eventDispatcher;
-  final String apiName;
+  final Constants.MovieListType movieListType;
 
   const HorizontalMovieList(
       {Key key,
-      @required this.movieListModel,
+      @required this.movieList,
       @required this.eventDispatcher,
-      @required this.apiName})
+      @required this.movieListType,
+      @required this.isLoading})
       : super(key: key);
 
   @override
@@ -29,20 +31,23 @@ class HorizontalMovieList extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  Constants.apiNameToTitleMap[apiName],
+                  movieListType.title,
                   textAlign: TextAlign.start,
-                  style: TextStyle(),
+                  style: TextStyle(
+                    fontSize: 18
+                  ),
                 ),
               ),
             ),
             Align(
               alignment: Alignment.centerRight,
               child: FlatButton(
-                onPressed: () => _navigateToMorePage(context, apiName),
+                onPressed: () => _navigateToMorePage(context, movieListType),
                 child: Text(
                   "More",
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontSize: 16,
                     color: Colors.amber,
                   ),
                 ),
@@ -57,24 +62,24 @@ class HorizontalMovieList extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return movieListModel.isLoading
+                return isLoading
                     ? _buildSpinner()
                     : GestureDetector(
-                        onTap: () => _navigateToDetailedPage(
-                            context, movieListModel.movieList[index]),
+                        onTap: () =>
+                            _navigateToDetailedPage(context, movieList[index]),
                         child: Container(
                           width: 150,
                           padding: EdgeInsets.all(4),
                           child: FadeInImage.assetNetwork(
                             placeholder: Constants.ASSET_URL,
                             image: Constants.IMAGE_URL +
-                                movieListModel.movieList[index].poster_path,
+                                movieList[index].poster_path,
                             fit: BoxFit.cover,
                           ),
                         ),
                       );
               },
-              itemCount: movieListModel.movieList.length,
+              itemCount: movieList.length,
             ),
           ),
         ),
@@ -94,7 +99,9 @@ class HorizontalMovieList extends StatelessWidget {
     eventDispatcher(DetailedMovieClickEvent(context: context, movie: movie));
   }
 
-  _navigateToMorePage(BuildContext context, String apiName) {
-    eventDispatcher(MoreClickEvent(context: context, apiName: apiName));
+  _navigateToMorePage(
+      BuildContext context, Constants.MovieListType movieListType) {
+    eventDispatcher(
+        MoreClickEvent(context: context, movieListType: movieListType));
   }
 }
