@@ -5,11 +5,13 @@ class Movie {
   String poster_path;
   String title;
   String overview;
+  String backdrop_path;
 
   Movie({
     @required this.id,
     @required this.title,
     this.poster_path,
+    this.backdrop_path,
     this.overview,
   });
 
@@ -17,13 +19,15 @@ class Movie {
       : id = json['id'],
         title = json['title'],
         overview = json['overview'],
-        poster_path = json['poster_path'];
+        poster_path = json['poster_path'],
+        backdrop_path = json['backdrop_path'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
         'overview': overview,
         'poster_path': poster_path,
+        'backdrop_path': backdrop_path,
       };
 }
 
