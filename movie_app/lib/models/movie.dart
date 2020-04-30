@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-class Movie {
-  int id;
-  String poster_path;
-  String title;
-  String overview;
-  String backdrop_path;
+class Movie extends Equatable {
+  final int id;
+  final String title;
+  final String poster_path;
+  final String overview;
+  final String backdrop_path;
 
   Movie({
     @required this.id,
@@ -15,12 +16,14 @@ class Movie {
     this.overview,
   });
 
-  Movie.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        overview = json['overview'],
-        poster_path = json['poster_path'],
-        backdrop_path = json['backdrop_path'];
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    return Movie(
+        id: json['id'],
+        title: json['title'],
+        poster_path: json['poster_path'],
+        overview: json['overview'],
+        backdrop_path: json['backdrop_path']);
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -29,6 +32,9 @@ class Movie {
         'poster_path': poster_path,
         'backdrop_path': backdrop_path,
       };
+
+  @override
+  List<Object> get props => [id, poster_path, title, overview, backdrop_path];
 }
 
 class MovieListResponse {
