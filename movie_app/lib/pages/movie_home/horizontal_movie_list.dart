@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class HorizontalMovieList extends StatelessWidget {
@@ -101,7 +100,6 @@ class HorizontalMovieList extends StatelessWidget {
 
   _navigateToMorePage(
       BuildContext context, Constants.MovieListType movieListType) {
-    eventDispatcher(
-        MoreClickEvent(context: context, movieListType: movieListType));
+    eventDispatcher(MoreClickEvent(context: context, movieListType: movieListType));
   }
 }

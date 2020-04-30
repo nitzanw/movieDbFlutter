@@ -38,7 +38,7 @@ class MovieHomePage extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("TMDB"),
+            title: Text(Constants.APP_NAME),
           ),
           body: SingleChildScrollView(
             child: Center(

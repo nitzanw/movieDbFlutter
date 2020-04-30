@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:movieapp/common_widgets/grid_list.dart';
-import 'package:movieapp/pages/movie_grid/movie_list_bloc.dart';
-import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
+import 'package:movieapp/pages/movie_grid/movie_grid_bloc.dart';
+import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:provider/provider.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
@@ -11,15 +11,15 @@ import 'package:movieapp/services/constants.dart' as Constants;
 
 class MovieGridPage extends StatelessWidget {
   const MovieGridPage({Key key, @required this.bloc}) : super(key: key);
-  final MovieListBloc bloc;
+  final MovieGridBloc bloc;
 
   static Widget create(BuildContext context, Constants.MovieListType movieListType) {
     final MovieDbApi movieDpApi =
         Provider.of<MovieDbApi>(context, listen: false);
-    return Provider<MovieListBloc>(
-      create: (_) => MovieListBloc(movieDpApi: movieDpApi, movieListType: movieListType),
+    return Provider<MovieGridBloc>(
+      create: (_) => MovieGridBloc(movieDpApi: movieDpApi, movieListType: movieListType),
       dispose: (context, bloc) => bloc.dispose(),
-      child: Consumer<MovieListBloc>(
+      child: Consumer<MovieGridBloc>(
           builder: (context, bloc, _) => MovieGridPage(
                 bloc: bloc,
               )),
@@ -29,9 +29,9 @@ class MovieGridPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    bloc.movieList();
-    return StreamBuilder<MovieListModel>(
+    return StreamBuilder<MovieGridModel>(
         stream: bloc.modelStream,
-        initialData: MovieListModel(),
+        initialData: MovieGridModel(),
         builder: (context, snapshot) {
           return GridList(
             eventDispatcher: bloc.eventDispatcher,

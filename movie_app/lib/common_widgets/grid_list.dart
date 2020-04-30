@@ -5,13 +5,13 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
+import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class GridList extends StatelessWidget {
   const GridList({@required this.movieListModel, @required this.eventDispatcher, @required this.title, Key key})
       : super(key: key);
-  final MovieListModel movieListModel;
+  final MovieGridModel movieListModel;
   final Function(DetailedMovieClickEvent) eventDispatcher;
   final String title;
 

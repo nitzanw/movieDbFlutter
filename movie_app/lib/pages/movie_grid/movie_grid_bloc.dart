@@ -5,22 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/event/ui_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
-import 'package:movieapp/pages/movie_details/change_notifier/detailed_movie_page_change_notifier.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
-import 'package:movieapp/pages/movie_grid/movie_list_model.dart';
+import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
-class MovieListBloc {
-  MovieListBloc({@required this.movieDpApi, @required this.movieListType});
+class MovieGridBloc {
+  MovieGridBloc({@required this.movieDpApi, @required this.movieListType});
   final MovieDbApi movieDpApi;
   final Constants.MovieListType movieListType;
 
-  final StreamController<MovieListModel> _loadingMoviesController =
-  StreamController<MovieListModel>();
+  final StreamController<MovieGridModel> _loadingMoviesController =
+  StreamController<MovieGridModel>();
 
-  Stream<MovieListModel> get modelStream => _loadingMoviesController.stream;
-  MovieListModel _model = MovieListModel();
+  Stream<MovieGridModel> get modelStream => _loadingMoviesController.stream;
+  MovieGridModel _model = MovieGridModel();
 
   void dispose() {
     _loadingMoviesController.close();
