@@ -104,7 +104,7 @@ class GridMovieItem extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: FadeInImage.assetNetwork(
           placeholder: Constants.ASSET_URL,
-          image: Constants.IMAGE_URL + movie.poster_path ??  "",
+          image:  movie.poster_path != null ? Constants.IMAGE_URL + movie.poster_path :  Constants.ASSET_URL,
           fit: BoxFit.cover,
         ),
       ),
