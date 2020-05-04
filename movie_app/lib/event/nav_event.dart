@@ -1,15 +1,15 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/event/interaction_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/services/constants.dart';
 
-abstract class UiEvent extends Equatable{
+abstract class NavEvent extends InteractionEvent{
   final BuildContext context;
 
-  UiEvent(this.context);
+  NavEvent(this.context);
 }
 
-class DetailedMovieClickEvent extends UiEvent {
+class DetailedMovieClickEvent extends NavEvent {
   final Movie movie;
 
   DetailedMovieClickEvent({BuildContext context, this.movie}) : super(context);
@@ -21,7 +21,7 @@ class DetailedMovieClickEvent extends UiEvent {
   String toString() => 'ClickMovie';
 }
 
-class MoreClickEvent extends UiEvent {
+class MoreClickEvent extends NavEvent {
   final MovieListType movieListType;
 
   MoreClickEvent({BuildContext context, this.movieListType}) : super(context);
@@ -33,7 +33,7 @@ class MoreClickEvent extends UiEvent {
   String toString() => 'More';
 }
 
-class FetchMoreMovies extends UiEvent{
+class FetchMoreMovies extends NavEvent{
   FetchMoreMovies(BuildContext context) : super(context);
 
   @override

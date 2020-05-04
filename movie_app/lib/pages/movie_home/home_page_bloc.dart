@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/event/ui_event.dart';
+import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
-import 'package:movieapp/pages/movie_grid/multiple_movie_list_model.dart';
+import 'package:movieapp/pages/movie_grid/states_bloc/movie_grid_page_states.dart';
+import 'package:movieapp/pages/movie_home/multiple_movie_list_model.dart';
 import 'package:movieapp/services/constants.dart';
 import 'package:movieapp/services/movie_db_api.dart';
 
@@ -74,7 +75,7 @@ class HomePageBloc {
   void movieList(MovieListType movieListType) async =>
       _loadMovieList(movieDpApi.movieList, movieListType);
 
-  eventDispatcher(UiEvent event) {
+  eventDispatcher(NavEvent event) {
     if (event is DetailedMovieClickEvent) {
       Navigator.of(event.context).push(
         MaterialPageRoute<void>(
@@ -87,7 +88,7 @@ class HomePageBloc {
         MaterialPageRoute<void>(
           fullscreenDialog: true,
           builder: (context) =>
-              MovieGridPage.create(context, event.movieListType),
+              MovieGridPageStates.create(context, event.movieListType),
         ),
       );
     }

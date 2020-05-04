@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/event/ui_event.dart';
+import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
@@ -44,21 +44,13 @@ class MovieGridBloc {
 
   void movieList() async => _loadMovieList(movieDpApi.movieList);
 
-  eventDispatcher(UiEvent event) {
+  eventDispatcher(NavEvent event) {
 
     if(event is DetailedMovieClickEvent){
       Navigator.of(event.context).push(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
           builder: (context) => DetailedMoviePage.create(context, event.movie),
-        ),
-      );
-    }
-    else if(event is MoreClickEvent){
-      Navigator.of(event.context).push(
-        MaterialPageRoute<void>(
-          fullscreenDialog: true,
-          builder: (context) => MovieGridPage.create(context, event.movieListType),
         ),
       );
     }

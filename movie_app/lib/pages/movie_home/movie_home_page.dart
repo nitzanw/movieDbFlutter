@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/pages/movie_grid/multiple_movie_list_model.dart';
+import 'package:movieapp/pages/movie_home/multiple_movie_list_model.dart';
 import 'package:movieapp/pages/movie_home/home_page_bloc.dart';
 import 'package:movieapp/pages/movie_home/horizontal_movie_list.dart';
 import 'package:movieapp/services/constants.dart' as Constants;

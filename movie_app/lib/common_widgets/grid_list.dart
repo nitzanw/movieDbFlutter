@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:movieapp/event/ui_event.dart';
+import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
@@ -45,7 +45,7 @@ class GridList extends StatelessWidget {
                 final Movie movie =  movieListModel.movieList[index];
                 return GestureDetector(
                   onTap: ()=>_navigateToDetailedPage(context,movie),
-                  child: _GridMovieItem(
+                  child: GridMovieItem(
                     movie: movie,
                   ),
                 );
@@ -77,8 +77,8 @@ class _GridTitleText extends StatelessWidget {
   }
 }
 
-class _GridMovieItem extends StatelessWidget {
-  _GridMovieItem({
+class GridMovieItem extends StatelessWidget {
+  GridMovieItem({
     Key key,
     @required this.movie,
   }) : super(key: key);
@@ -104,7 +104,7 @@ class _GridMovieItem extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: FadeInImage.assetNetwork(
           placeholder: Constants.ASSET_URL,
-          image: Constants.IMAGE_URL + movie.poster_path,
+          image: Constants.IMAGE_URL + movie.poster_path ??  "",
           fit: BoxFit.cover,
         ),
       ),

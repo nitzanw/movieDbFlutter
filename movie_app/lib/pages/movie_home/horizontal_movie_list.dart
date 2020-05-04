@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/event/ui_event.dart';
+import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 
 class HorizontalMovieList extends StatelessWidget {
   final List<Movie> movieList;
   final bool isLoading;
-  final Function(UiEvent) eventDispatcher;
+  final Function(NavEvent) eventDispatcher;
   final Constants.MovieListType movieListType;
 
   const HorizontalMovieList(
