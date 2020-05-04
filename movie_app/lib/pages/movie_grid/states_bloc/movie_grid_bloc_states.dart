@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/event/grid_event.dart';
 import 'package:movieapp/models/movie.dart';
+import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_grid/states_bloc/movie_grid_state.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 import 'package:movieapp/services/movie_db_api.dart';
@@ -51,6 +52,14 @@ class MovieGridBlocStates extends Bloc<GridEvent, MovieGridState> {
       } catch (_) {
         yield MovieGridError();
       }
+    }
+    if( event is ClickMovieGridEvent){
+      Navigator.of(event.context).push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => DetailedMoviePage.create(context, event.movie),
+        ),
+      );
     }
   }
 

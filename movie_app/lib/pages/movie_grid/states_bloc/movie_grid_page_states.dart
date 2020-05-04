@@ -95,7 +95,7 @@ class MovieGridPageStatesState extends State<MovieGridPageStates> {
                 return index >= state.movies.length
                     ? BottomLoader()
                     : GestureDetector(
-                        onTap: () => print("tap"),
+                        onTap: () => _bloc.add(ClickMovieGridEvent(context: context, movie: state.movies[index])),
                         //()=>_navigateToDetailedPage(context,movie),
                         child: GridMovieItem(
                           movie: state.movies[index],

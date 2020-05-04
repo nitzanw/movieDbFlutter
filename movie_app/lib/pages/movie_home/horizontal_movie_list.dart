@@ -32,9 +32,7 @@ class HorizontalMovieList extends StatelessWidget {
                 child: Text(
                   movieListType.title,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 18
-                  ),
+                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ),
@@ -100,6 +98,7 @@ class HorizontalMovieList extends StatelessWidget {
 
   _navigateToMorePage(
       BuildContext context, Constants.MovieListType movieListType) {
-    eventDispatcher(MoreClickEvent(context: context, movieListType: movieListType));
+    eventDispatcher(
+        MoreClickEvent(context: context, movieListType: movieListType));
   }
 }
