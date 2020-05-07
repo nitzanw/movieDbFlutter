@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
-import 'package:movieapp/pages/movie_grid/movie_grid_page.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
-import 'package:movieapp/services/constants.dart' as Constants;
+import 'package:movieapp/services/movie_list_type.dart';
 
 class MovieGridBloc {
   MovieGridBloc({@required this.movieDpApi, @required this.movieListType});
   final MovieDbApi movieDpApi;
-  final Constants.MovieListType movieListType;
+  final MovieListType movieListType;
 
   final StreamController<MovieGridModel> _loadingMoviesController =
   StreamController<MovieGridModel>();

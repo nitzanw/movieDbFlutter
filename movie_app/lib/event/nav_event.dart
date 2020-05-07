@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/event/interaction_event.dart';
 import 'package:movieapp/models/movie.dart';
-import 'package:movieapp/services/constants.dart';
+import 'package:movieapp/services/movie_list_type.dart';
 
 abstract class NavEvent extends InteractionEvent{
   final BuildContext context;

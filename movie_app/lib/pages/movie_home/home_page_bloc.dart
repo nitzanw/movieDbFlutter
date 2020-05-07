@@ -10,6 +10,7 @@ import 'package:movieapp/pages/movie_grid/states_bloc/movie_grid_page_states.dar
 import 'package:movieapp/pages/movie_home/multiple_movie_list_model.dart';
 import 'package:movieapp/services/constants.dart';
 import 'package:movieapp/services/movie_db_api.dart';
+import 'package:movieapp/services/movie_list_type.dart';
 
 class HomePageBloc {
   HomePageBloc({@required this.movieDpApi});

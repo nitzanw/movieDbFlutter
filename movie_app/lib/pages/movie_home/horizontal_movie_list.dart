@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/event/nav_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
+import 'package:movieapp/services/movie_list_type.dart';
 
 class HorizontalMovieList extends StatelessWidget {
   final List<Movie> movieList;
   final bool isLoading;
   final Function(NavEvent) eventDispatcher;
-  final Constants.MovieListType movieListType;
+  final MovieListType movieListType;
 
   const HorizontalMovieList(
       {Key key,
@@ -97,7 +98,7 @@ class HorizontalMovieList extends StatelessWidget {
   }
 
   _navigateToMorePage(
-      BuildContext context, Constants.MovieListType movieListType) {
+      BuildContext context, MovieListType movieListType) {
     eventDispatcher(
         MoreClickEvent(context: context, movieListType: movieListType));
   }

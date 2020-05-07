@@ -8,15 +8,15 @@ import 'package:movieapp/event/grid_event.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/pages/movie_details/bloc/detailed_movie_page.dart';
 import 'package:movieapp/pages/movie_grid/states_bloc/movie_grid_state.dart';
-import 'package:movieapp/services/constants.dart' as Constants;
 import 'package:movieapp/services/movie_db_api.dart';
+import 'package:movieapp/services/movie_list_type.dart';
 
 class MovieGridBlocStates extends Bloc<GridEvent, MovieGridState> {
   MovieGridBlocStates(
       {@required this.movieDpApi, @required this.movieListType});
 
   final MovieDbApi movieDpApi;
-  final Constants.MovieListType movieListType;
+  final MovieListType movieListType;
 
 
   @override

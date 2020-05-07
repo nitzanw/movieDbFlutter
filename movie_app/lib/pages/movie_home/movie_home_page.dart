@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/pages/movie_home/multiple_movie_list_model.dart';
 import 'package:movieapp/pages/movie_home/home_page_bloc.dart';
 import 'package:movieapp/pages/movie_home/horizontal_movie_list.dart';
+import 'package:movieapp/pages/movie_home/multiple_movie_list_model.dart';
 import 'package:movieapp/services/constants.dart' as Constants;
 import 'package:movieapp/services/movie_db_api.dart';
+import 'package:movieapp/services/movie_list_type.dart';
 import 'package:provider/provider.dart';
 
 class MovieHomePage extends StatelessWidget {
@@ -28,10 +29,10 @@ class MovieHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bloc.movieList(Constants.NowPlaying());
-    bloc.movieList(Constants.Popular());
-    bloc.movieList(Constants.Upcoming());
-    bloc.movieList(Constants.TopRated());
+    bloc.movieList(NowPlaying());
+    bloc.movieList(Popular());
+    bloc.movieList(Upcoming());
+    bloc.movieList(TopRated());
     return StreamBuilder<MultipleMovieListModel>(
       stream: bloc.modelStream,
       initialData: MultipleMovieListModel(),
@@ -47,25 +48,25 @@ class MovieHomePage extends StatelessWidget {
                   HorizontalMovieList(
                     movieList: snapshot.data.nowPlayingMovieList,
                     eventDispatcher: bloc.eventDispatcher,
-                    movieListType: Constants.NowPlaying(),
+                    movieListType: NowPlaying(),
                     isLoading: snapshot.data.isLoading,
                   ),
                   HorizontalMovieList(
                     movieList: snapshot.data.popularMovieList,
                     eventDispatcher: bloc.eventDispatcher,
-                    movieListType: Constants.Popular(),
+                    movieListType: Popular(),
                     isLoading: snapshot.data.isLoading,
                   ),
                   HorizontalMovieList(
                     movieList: snapshot.data.upcomingMovieList,
                     eventDispatcher: bloc.eventDispatcher,
-                    movieListType: Constants.Upcoming(),
+                    movieListType: Upcoming(),
                     isLoading: snapshot.data.isLoading,
                   ),
                   HorizontalMovieList(
                     movieList: snapshot.data.topRatedMovieList,
                     eventDispatcher: bloc.eventDispatcher,
-                    movieListType: Constants.TopRated(),
+                    movieListType: TopRated(),
                     isLoading: snapshot.data.isLoading,
                   ),
                 ],

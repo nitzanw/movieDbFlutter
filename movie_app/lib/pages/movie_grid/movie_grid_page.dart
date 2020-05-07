@@ -5,15 +5,15 @@ import 'package:movieapp/common_widgets/grid_list.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_bloc.dart';
 import 'package:movieapp/pages/movie_grid/movie_grid_model.dart';
 import 'package:movieapp/services/movie_db_api.dart';
+import 'package:movieapp/services/movie_list_type.dart';
 import 'package:provider/provider.dart';
-import 'package:movieapp/services/constants.dart' as Constants;
 
 
 class MovieGridPage extends StatelessWidget {
   const MovieGridPage({Key key, @required this.bloc}) : super(key: key);
   final MovieGridBloc bloc;
 
-  static Widget create(BuildContext context, Constants.MovieListType movieListType) {
+  static Widget create(BuildContext context, MovieListType movieListType) {
     final MovieDbApi movieDpApi =
         Provider.of<MovieDbApi>(context, listen: false);
     return Provider<MovieGridBloc>(
